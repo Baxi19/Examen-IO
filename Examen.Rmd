@@ -1,16 +1,18 @@
 ---
 title: "Respuestas Examen #1 IO"
-output: html_document
+output: 
+  html_document
+   
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Estudiantes
+### Estudiantes
 Randald Villegas Brenes  
 Kevin Andrés Solano Jiménez
 
-## Librerias
+### Librerias
 Librería utilizada en el examen.
 ```{r, warning=FALSE}
 library (lpSolve)
@@ -21,16 +23,9 @@ library (lpSolve)
 
 ## Tabla Resumen
 
-|            |$x_1$|$x_2$|$x_3$|$x_4$|      Disponible    |    Restricciones |
-|:----------:|:---:|:---:|:---:|:---:|--------------------|:-----------------|
-|Fondo 1     |1    |2    |3    |4    |$x_1\leq 4$         |                  |
-|Fondo 2     |1    |2    |3    |4    |$2x_2 \leq 12$      |                  |
-|Fondo 3     |1    |2    |3    |4    |$3x_1+2x_2 \leq 18$ |                  |
-|Fondo 4     |1    |2    |3    |4    |                    |                  |
-|Ganancia    |1    |2    |3    |4    | $Z=3x_1+5x_2$      |                  |
+!["Tabla de resumen"](s1.jpeg)
 
-
-**Modelo:**
+## **Modelo de programación lineal**
 
 |         |     |        
 |:------- |:---|
@@ -39,6 +34,7 @@ library (lpSolve)
 |         |$x_2<= 42500$|
 |         |$x_4-x_2<=0$|
 |         |$x_1+x_2+x_3+x_4<= 125.000$|
+
 ## Solución Original
 ```{r}
 # Definición de los coeficientes
@@ -52,12 +48,14 @@ param.rest <- c(0, 42500, 0, 125000)
 #Solución del problema
 solucion <- lp("max", coef.obj, coef.restr, dir.rest, param.rest, compute.sens = T)
 ```
+
 ##### Monto Máximo de rendimiento
 ```{r}
 solucion$objval
 
 # El monto máximo es de $8.375
 ```
+
 ##### Distribución de los $125.000
 ```{r}
 solucion$solution
@@ -68,22 +66,24 @@ solucion$solution
 # x_4 (Fondo 9%) = $42.500
 ```
 
-### Punto 4
+## Punto 4
 En este caso los valores o coeficientes de las FO hacen referencias a los diferentes porcentajes de inverción que se desea realizar en los 4 fondos
 con respecto a los valores mínimos o máximos de los coeficientes de la función objetivo, sería los siguientes:
+
 
 **Coeficiente 1:** Valor Original: 0.05 ------ Valor Mínimo: 0.04         ------ Valor Máximo: 0.075  
 **Coeficiente 2:** Valor Original: 0.06 ------ Valor Mínimo: 0.01         ------ Valor Máximo: Infinito  
 **Coeficiente 3:** Valor Original: 0.04 ------ Valor Mínimo: 0.04 - 1E+30 ------ Valor Máximo: 0.05   
 **Coeficiente 4:** Valor Original: 0.09 ------ Valor Mínimo: 0.05 ------ Valor Máximo: Infinito
 
-### Punto 5
+## Punto 5
 Dentro de las recomendaciones que le daríamos al inversioniste, sería que a las inversion del 5%, la aumente a un 7.5% y las inversiones del 6% y 9%, las lleve al 100% para así obtener una mayor ganancia, esta recomendacion representaria un gran aumento en las ganacias desde **\$8.375** como valor de ganancias gasta **\$88.000**
 
-### Punto 6
+## Punto 6
 Considerando los precios sombra, se recomienda eliminar el valor derecho 0 de la tercera restricción (x_4 - x_2 < 0) y aumentarlo a lo maximo posible que serían **\$40.000**, todo esto con base a los valores sombra
 
-## Solución Sugerida por analistas una vez aplicado lo dicho en el Punto 5 y 6
+#### Solución Sugerida por analistas una vez aplicado lo dicho en el Punto 5 y 6
+
 ```{r}
 
 # Definición de los coeficientes
@@ -97,12 +97,14 @@ param.rest <- c(0, 42500, 40000, 125000)
 #Solución del problema
 solucion1 <- lp("max", coef.obj, coef.restr, dir.rest, param.rest, compute.sens = T)
 ```
+
 ##### Monto Máximo de rendimiento
 ```{r}
 solucion1$objval
 
 # El monto máximo es de $125.000
 ```
+
 ##### Distribución de los $125.000
 ```{r}
 solucion1$solution
@@ -114,9 +116,7 @@ solucion1$solution
 ```
 
 
-
 # Problema #2
-
 
 ## Tabla de resumen
 
@@ -183,7 +183,7 @@ solucion1$solution
 
 #### Con los datos que brinda solver, se puede interpretar que en la comunidad 1, se sembraran 300 acres de algodon, en la comunidad 2, se sembraran 133.3333333 de remolachas, 200 de algodon y en la comunidad 3 se sembraran 123 remolachas.
 
-#### Con la función objetivo con un valor de **63333,3333**
+#### Con la función objetivo con un valor de **633333,3333**
 
 
 ## Entre los componentes de restricción (terreno, agua, cultivo, proporcionalidad) si hubiese posibilidad de modificar las restricciones, se determina que los que puede incidir más en la variación del rendimiento total son:
@@ -211,3 +211,8 @@ solucion1$solution
 
 
 ## ¿Cuál sería el rendimiento máximo esperado?.
+
+#### El rendimiento esperado es pasar de una ganancia de **633333,3333** a **1125000**, esto se nota gracias al analisis de sencicilidad el cual muestra que los valores de x5, x7, x8, x9 tienen un precio de sombra mayor que cero, entonces aumentando los valores  del lado derecho de las restricciones y respetando el rango que se puede maximizar se puede aumentar el rendimiento , acontinuacion se muestra una tabla con los valores sugeridos y su maximo rendimiento:
+
+!["Tabla aumento de rendimiento"](max.jpeg)
+
